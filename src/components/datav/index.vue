@@ -7,14 +7,13 @@
         <div class="header-info header-info-r">数据日期：<span id="nowDate">xx年xx月xx日xx时xx分xx秒</span></div>
       </header>
       <main class="main-container">
-        <dv-border-box-6 class="content-box">
+        <dv-border-box-7 class="content-box">
           <div class="left-box">
             <div class="left-box-top">
               <div class="left-box-top-left">
                 <dv-border-box-3>
                   <LeftChart1 />
                 </dv-border-box-3>
-                <dv-decoration-2 style="height: 10px" />
               </div>
               <div class="left-box-top-right">
                 <dv-border-box-3 class="rmctc-left-container">
@@ -22,19 +21,34 @@
                 </dv-border-box-3>
               </div>
             </div>
+            <dv-decoration-2 style="height: 10px" />
             <div class="left-box-bottom">
               <div class="scroll-table">
-                <div class="scroll-table-item item-left">left</div>
-                <div class="scroll-table-item item-center">center</div>
-                <div class="scroll-table-item item-right">right</div>
+                <div class="scroll-table-item item-left">
+                  <dv-border-box-13>
+                    <!-- <BottomTable1Vue /> -->
+                  </dv-border-box-13>
+                </div>
+                <div class="scroll-table-item item-center">
+                  <dv-border-box-13>
+                    <!-- <BottomTable1Vue /> -->
+                  </dv-border-box-13>
+                </div>
+                <div class="scroll-table-item item-right">
+                  <dv-border-box-13>
+                    <!-- <BottomTable1Vue /> -->
+                  </dv-border-box-13>
+                </div>
               </div>
             </div>
           </div>
           <div class="right-box">
-            <div class="right-box-top">top</div>
+            <div class="right-box-top">
+              <TopRightBarChartVue />
+            </div>
             <div class="right-box-bottom">bottom</div>
           </div>
-        </dv-border-box-6>
+        </dv-border-box-7>
       </main>
     </dv-full-screen-container>
   </div>
@@ -42,26 +56,17 @@
 
 <script>
 import LeftChart1 from './LeftChart1'
-// import LeftChart2 from './LeftChart2'
-// import LeftChart3 from './LeftChart3'
-
 import CenterCmp from './CenterCmp'
+import TopRightBarChartVue from './TopRightBarChart.vue'
+// import BottomTable1Vue from './BottomTable1.vue'
 
-// import RightChart1 from './RightChart1'
-// import RightChart2 from './RightChart2'
-
-// import BottomCharts from './BottomCharts'
-// import echarts from '../../lib/echart'
 export default {
   name: 'DataView',
   components: {
     LeftChart1,
-    // LeftChart2,
-    // LeftChart3,
-    CenterCmp
-    // RightChart1,
-    // RightChart2,
-    // BottomCharts
+    CenterCmp,
+    TopRightBarChartVue
+    // BottomTable1Vue
   },
   data() {
     return {}
@@ -135,11 +140,15 @@ export default {
         }
       }
       .left-box-bottom {
-        height: 30%;
+        height: 40%;
         .scroll-table {
+          padding: 5px 5px 5px 0px;
+          box-sizing: border-box;
           display: flex;
+          height: 100%;
           .scroll-table-item {
             flex: 1;
+            height: 100%;
           }
         }
       }
@@ -149,7 +158,7 @@ export default {
       width: 30%;
       .right-box-top {
         height: 55%;
-        background-color: skyblue;
+        // background-color: skyblue;
       }
       .right-box-bottom {
         height: 45%;

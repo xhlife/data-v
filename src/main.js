@@ -8,12 +8,15 @@ import './assets/common.less'
 import {
   fullScreenContainer,
   borderBox8,
+  borderBox7,
   borderBox6,
+  borderBox13,
   borderBox3,
   decoration1,
   decoration2,
   scrollRankingBoard,
-  digitalFlop
+  digitalFlop,
+  scrollBoard
   // activeRingChart
 } from '@jiaminghi/data-view'
 
@@ -21,12 +24,15 @@ Vue.config.productionTip = false
 
 Vue.use(fullScreenContainer)
   .use(borderBox6)
+  .use(borderBox13)
+  .use(borderBox7)
   .use(borderBox3)
   .use(borderBox8)
   .use(decoration2)
   .use(scrollRankingBoard)
   .use(decoration1)
   .use(digitalFlop)
+  .use(scrollBoard)
 // .use(activeRingChart)
 
 new Vue({
