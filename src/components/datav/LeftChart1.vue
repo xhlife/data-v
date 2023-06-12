@@ -10,7 +10,7 @@
 <script>
 export default {
   name: 'LeftChart1',
-  data () {
+  data() {
     return {
       config: {
         data: [

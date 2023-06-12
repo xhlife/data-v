@@ -2,91 +2,71 @@
   <div id="data-view">
     <dv-full-screen-container>
       <header id="header-container">
-        <div class="header-info header-info-l">
-          数据来源：技术规范 &amp; 工厂实地
-        </div>
+        <div class="header-info header-info-l">数据来源：技术规范 &amp; 工厂实地</div>
         <h3 class="header-title">循环冷却水系统概况</h3>
-        <div class="header-info header-info-r">
-          数据日期：<span id="nowDate">xx年xx月xx日xx时xx分xx秒</span>
-        </div>
+        <div class="header-info header-info-r">数据日期：<span id="nowDate">xx年xx月xx日xx时xx分xx秒</span></div>
       </header>
       <main class="main-container">
         <dv-border-box-6 class="content-box">
-        <div class="left-box">
-          <div class="left-box-top">
-            <dv-border-box-3>
-              <!-- <LeftChart1 /> -->
-            </dv-border-box-3>
-            <dv-decoration-2 style="height:10px;" />
+          <div class="left-box">
+            <div class="left-box-top">
+              <div class="left-box-top-left">
+                <dv-border-box-3>
+                  <LeftChart1 />
+                </dv-border-box-3>
+                <dv-decoration-2 style="height: 10px" />
+              </div>
+              <div class="left-box-top-right">
+                <dv-border-box-3 class="rmctc-left-container">
+                  <Center-Cmp />
+                </dv-border-box-3>
+              </div>
+            </div>
+            <div class="left-box-bottom">
+              <div class="scroll-table">
+                <div class="scroll-table-item item-left">left</div>
+                <div class="scroll-table-item item-center">center</div>
+                <div class="scroll-table-item item-right">right</div>
+              </div>
+            </div>
           </div>
-          <div class="left-box-bottom">
-            <div class="test" style="width:300px;height:300px" ref="test"></div>
-          </div>
-        </div>
           <div class="right-box">
-
+            <div class="right-box-top">top</div>
+            <div class="right-box-bottom">bottom</div>
           </div>
-      </dv-border-box-6>
+        </dv-border-box-6>
       </main>
     </dv-full-screen-container>
   </div>
 </template>
 
 <script>
-// import LeftChart1 from './LeftChart1'
+import LeftChart1 from './LeftChart1'
 // import LeftChart2 from './LeftChart2'
 // import LeftChart3 from './LeftChart3'
 
-// import CenterCmp from './CenterCmp'
+import CenterCmp from './CenterCmp'
 
 // import RightChart1 from './RightChart1'
 // import RightChart2 from './RightChart2'
 
 // import BottomCharts from './BottomCharts'
-import echarts from '../../lib/echart'
+// import echarts from '../../lib/echart'
 export default {
   name: 'DataView',
   components: {
-    // LeftChart1,
+    LeftChart1,
     // LeftChart2,
     // LeftChart3,
-    // CenterCmp,
+    CenterCmp
     // RightChart1,
     // RightChart2,
     // BottomCharts
   },
-  data () {
+  data() {
     return {}
   },
-  mounted () {
-    setTimeout(() => {
-      var chartDom = this.$refs.test
-      var myChart = echarts.init(chartDom)
-      var option
-
-      option = {
-        xAxis: {
-          type: 'category',
-          data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
-        },
-        yAxis: {
-          type: 'value'
-        },
-        series: [
-          {
-            data: [120, 200, 150, 80, 70, 110, 130],
-            type: 'bar',
-            showBackground: true,
-            backgroundStyle: {
-              color: 'rgba(180, 180, 180, 0.2)'
-            }
-          }
-        ]
-      }
-
-      option && myChart.setOption(option)
-    }, 2000)
-  }
+  mounted() {}
 }
 </script>
 
@@ -98,7 +78,7 @@ export default {
   color: #fff;
 
   #dv-full-screen-container {
-    background-image: url("./img/bg.png");
+    background-image: url('./img/bg.png');
     background-size: 100% 100%;
     box-shadow: 0 0 3px blue;
     display: flex;
@@ -116,7 +96,7 @@ export default {
     box-sizing: border-box;
     // background-color: red;
     z-index: 999;
-    background:url("./img/header.png") no-repeat center center;
+    background: url('./img/header.png') no-repeat center center;
     // margin-bottom: 16px;
   }
   .main-container {
@@ -126,28 +106,55 @@ export default {
     padding-top: 16px;
   }
   .content-box {
-    &>.border-box-content {
+    & > .border-box-content {
       display: flex;
       padding: 10px;
-       box-sizing: border-box;
+      box-sizing: border-box;
     }
     .left-box {
-      // background-color: #fff;
-      width: 30%;
+      width: 70%;
       .left-box-top {
         height: 60%;
-        &>.dv-border-box-3{
-          padding: 32px;
-          box-sizing: border-box;
+        display: flex;
+        .left-box-top-left {
+          width: 28%;
+          height: 100%;
+          & > .dv-border-box-3 {
+            padding: 32px;
+            box-sizing: border-box;
+          }
+        }
+        .left-box-top-right {
+          width: 72%;
+          margin-left: 10px;
+          // background-color: #fff;
+          & > .dv-border-box-3 {
+            padding: 32px;
+            box-sizing: border-box;
+          }
         }
       }
       .left-box-bottom {
         height: 30%;
+        .scroll-table {
+          display: flex;
+          .scroll-table-item {
+            flex: 1;
+          }
+        }
       }
     }
     .right-box {
       // background-color: #ccc;
-      width: 70%;
+      width: 30%;
+      .right-box-top {
+        height: 55%;
+        background-color: skyblue;
+      }
+      .right-box-bottom {
+        height: 45%;
+        background-color: #fff;
+      }
     }
   }
 }

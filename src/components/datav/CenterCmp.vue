@@ -1,54 +1,66 @@
 <template>
   <div class="center-cmp">
     <div class="cc-header">
-      <dv-decoration-1 style="width:200px;height:50px;" />
-      <div>机电设备总数</div>
-      <dv-decoration-1 style="width:200px;height:50px;" />
+      <dv-decoration-1 style="width: 100px; height: 50px" />
+      <!-- <div>当前实际耗水总量</div> -->
+      <dv-decoration-1 style="width: 100px; height: 50px" />
     </div>
 
     <div class="cc-details">
-      <div>设备总数</div>
+      <div>当前实际耗水总量</div>
       <div class="card">2</div>
       <div class="card">1</div>
       <div class="card">3</div>
       <div class="card">7</div>
+      <div>t/h</div>
     </div>
 
     <div class="cc-main-container">
-      <div class="ccmc-left">
-        <div class="station-info">
-          收费站<span>1315</span>
-        </div>
-        <div class="station-info">
-          监控中心<span>415</span>
-        </div>
+      <div class="cc-main-container-item">
+        <dv-border-box-8>
+          <div class="container-item-content">
+            <div class="item-content-title">额定水量</div>
+            <div class="item-content-text">100th</div>
+          </div>
+        </dv-border-box-8>
       </div>
-
-      <dv-active-ring-chart class="ccmc-middle" :config="config" />
-
-      <div class="ccmc-right">
-        <div class="station-info">
-          <span>90</span>道路外场
-        </div>
-        <div class="station-info">
-          <span>317</span>其他
-        </div>
+      <div class="cc-main-container-item">
+        <dv-border-box-8 :reverse="true">
+          <div class="container-item-content">
+            <div class="item-content-title">设备数</div>
+            <div class="item-content-text">132个</div>
+          </div>
+        </dv-border-box-8>
       </div>
-
-      <LabelTag :config="labelConfig" />
+      <div class="cc-main-container-item">
+        <dv-border-box-8>
+          <div class="container-item-content">
+            <div class="item-content-title">换热器数</div>
+            <div class="item-content-text">37个</div>
+          </div>
+        </dv-border-box-8>
+      </div>
+      <div class="cc-main-container-item">
+        <dv-border-box-8 :reverse="true">
+          <div class="container-item-content">
+            <div class="item-content-title">风机数</div>
+            <div class="item-content-text">66个</div>
+          </div>
+        </dv-border-box-8>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
-import LabelTag from './LabelTag'
+// import LabelTag from './LabelTag'
 
 export default {
   name: 'CenterCmp',
   components: {
-    LabelTag
+    // LabelTag
   },
-  data () {
+  data() {
     return {
       config: {
         data: [
@@ -73,10 +85,6 @@ export default {
         lineWidth: 30,
         radius: '55%',
         activeRadius: '60%'
-      },
-
-      labelConfig: {
-        data: ['收费站', '监控中心', '道路外场', '其他']
       }
     }
   }
@@ -93,7 +101,7 @@ export default {
   flex-direction: column;
 
   .cc-header {
-    height: 70px;
+    height: 30px;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -101,14 +109,13 @@ export default {
   }
 
   .cc-details {
-    height: 120px;
+    height: 88px;
     display: flex;
     justify-content: center;
     font-size: 32px;
     align-items: center;
-
     .card {
-      background-color: rgba(4,49,128,.6);
+      background-color: rgba(4, 49, 128, 0.6);
       color: #08e5ff;
       height: 70px;
       width: 70px;
@@ -123,60 +130,33 @@ export default {
   .cc-main-container {
     position: relative;
     flex: 1;
+    // background-color: yellow;
     display: flex;
-
-    .ccmc-middle {
-      width: 50%;
-      height: 90%;
-
-      .active-ring-name {
-        font-size: 20px !important;
-      }
-    }
-
-    .ccmc-left, .ccmc-right {
-      width: 25%;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      font-size: 24px;
-
-      span {
-        font-size: 40px;
-        font-weight: bold;
-      }
-
-      .station-info {
-        height: 80px;
+    align-items: center;
+    justify-content: space-around;
+    .cc-main-container-item {
+      // flex: 1;
+      width: 22%;
+      height: 80%;
+      .container-item-content {
+        height: 100%;
         display: flex;
+        flex-direction: column;
+        justify-content: center;
         align-items: center;
+        .item-content-title {
+          font-size: 24px;
+          margin-bottom: 36px;
+          color: #70a0c2;
+        }
+        .item-content-text {
+          font-size: 36px;
+          color: #65bbc5;
+          text-shadow: 0 0 10px #333, 0 0 20px #333, 0 0 30px #333, 0 0 40px #006699, 0 0 70px #006699, 0 0 80px #006699,
+            0 0 100px #006699, 0 0 150px #006699;
+        }
       }
     }
-
-    .ccmc-left {
-      align-items: flex-end;
-
-      span {
-        margin-left: 20px;
-      }
-    }
-
-    .ccmc-right {
-      align-items: flex-start;
-
-      span {
-        margin-right: 20px;
-      }
-    }
-  }
-
-  .label-tag {
-    position: absolute;
-    width: 500px;
-    height: 30px;
-    bottom: 10px;
-    left: 50%;
-    transform: translateX(-50%);
   }
 }
 </style>

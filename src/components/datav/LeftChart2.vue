@@ -10,7 +10,7 @@
 <script>
 export default {
   name: 'LeftChart2',
-  data () {
+  data() {
     return {
       option: {
         series: [
@@ -75,7 +75,7 @@ export default {
   }
 
   .lc2-chart {
-    height: calc(~"100% - 80px");
+    height: calc(~'100% - 80px');
   }
 }
 </style>

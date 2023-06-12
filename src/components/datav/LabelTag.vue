@@ -2,7 +2,8 @@
   <div class="label-tag">
     <template v-if="mergedConfig">
       <div class="label-item" v-for="(label, i) in mergedConfig.data" :key="label">
-        {{ label }} <div :style="`background-color: ${mergedConfig.colors[i % mergedConfig.colors.length]};`" />
+        {{ label }}
+        <div :style="`background-color: ${mergedConfig.colors[i % mergedConfig.colors.length]};`" />
       </div>
     </template>
   </div>
@@ -18,10 +19,10 @@ export default {
   props: {
     config: {
       type: Object,
-      default: () => ([])
+      default: () => []
     }
   },
-  data () {
+  data() {
     return {
       defaultConfig: {
         /**
@@ -44,20 +45,20 @@ export default {
     }
   },
   watch: {
-    config () {
+    config() {
       const { mergeConfig } = this
 
       mergeConfig()
     }
   },
   methods: {
-    mergeConfig () {
-      let { config, defaultConfig } = this
+    mergeConfig() {
+      const { config, defaultConfig } = this
 
       this.mergedConfig = deepMerge(deepClone(defaultConfig, true), config || {})
     }
   },
-  mounted () {
+  mounted() {
     const { mergeConfig } = this
 
     mergeConfig()

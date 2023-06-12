@@ -5,11 +5,29 @@ import './assets/common.less'
 
 // import dataV from '@jiaminghi/data-view'
 
-import { fullScreenContainer, borderBox6, borderBox3, decoration2 } from '@jiaminghi/data-view'
+import {
+  fullScreenContainer,
+  borderBox8,
+  borderBox6,
+  borderBox3,
+  decoration1,
+  decoration2,
+  scrollRankingBoard,
+  digitalFlop
+  // activeRingChart
+} from '@jiaminghi/data-view'
 
 Vue.config.productionTip = false
 
-Vue.use(fullScreenContainer).use(borderBox6).use(borderBox3).use(decoration2)
+Vue.use(fullScreenContainer)
+  .use(borderBox6)
+  .use(borderBox3)
+  .use(borderBox8)
+  .use(decoration2)
+  .use(scrollRankingBoard)
+  .use(decoration1)
+  .use(digitalFlop)
+// .use(activeRingChart)
 
 new Vue({
   render: h => h(App)
