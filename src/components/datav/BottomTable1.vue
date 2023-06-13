@@ -1,5 +1,6 @@
 <template>
   <div class="bottom-table-1">
+    <div class="title">123</div>
     <dv-scroll-board :config="config" />
   </div>
 </template>
@@ -10,6 +11,7 @@ export default {
     return {
       config: {
         header: ['列1', '列2', '列3'],
+        index: true,
         data: [
           ['行1列1', '行1列2', '行1列3'],
           ['行2列1', '行2列2', '行2列3'],
@@ -33,6 +35,7 @@ export default {
   width: 100%;
   height: 100%;
   box-sizing: border-box;
-  padding: 20px;
+  padding: 0 20px;
+  padding-top: 10px;
 }
 </style>

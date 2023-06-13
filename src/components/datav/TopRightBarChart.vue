@@ -2,27 +2,32 @@
   <div class="bar-chart">
     <div class="chart-dom" ref="chartDom"></div>
     <div class="chart-filter">
-      <SelectFilterVue />
+      <select @change="handleSelectChange">
+        <option value="option1">Option 1</option>
+        <option value="option2">Option 2</option>
+        <option value="option3">Option 3</option>
+      </select>
     </div>
   </div>
 </template>
 
 <script>
 import echarts from '../../lib/echart'
-import SelectFilterVue from '../SelectFilter.vue'
+// import SelectFilterVue from '../SelectFilter.vue'
 export default {
   components: {
-    SelectFilterVue
+    // SelectFilterVue
   },
   data() {
     return {
-      eInstance: null
+      eInstance: null,
+      options: {}
     }
   },
   mounted() {
     // console.log(this.$refs.chartDom)
     this.eInstance = echarts.init(this.$refs.chartDom)
-    const options = {
+    this.options = {
       // title: {
       //   left: 'center',
       //   text: '各设备用水情况',
@@ -53,7 +58,29 @@ export default {
         }
       ]
     }
-    options && this.eInstance.setOption(options)
+    this.eInstance.setOption(this.options)
+  },
+  methods: {
+    handleSelectChange(e) {
+      if (e.target.value === 'option2') {
+        const data = [120, 90, 140, 50, 70, 190, 30]
+        this.eInstance.setOption({
+          series: [{ data }]
+        })
+        return
+      }
+      if (e.target.value === 'option3') {
+        const data = [80, 30, 50, 200, 180, 110, 67]
+        this.eInstance.setOption({
+          series: [{ data }]
+        })
+        return
+      }
+      this.eInstance.setOption({
+        series: [{ data: [120, 200, 150, 80, 70, 110, 130] }]
+      })
+      console.log(e.target.value)
+    }
   }
 }
 </script>
