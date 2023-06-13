@@ -1,12 +1,19 @@
 <template>
-  <div class="bar-chart" ref="chartDom">
-    echart
+  <div class="bar-chart">
+    <div class="chart-dom" ref="chartDom"></div>
+    <div class="chart-filter">
+      <SelectFilterVue />
+    </div>
   </div>
 </template>
 
 <script>
 import echarts from '../../lib/echart'
+import SelectFilterVue from '../SelectFilter.vue'
 export default {
+  components: {
+    SelectFilterVue
+  },
   data() {
     return {
       eInstance: null
@@ -16,14 +23,14 @@ export default {
     // console.log(this.$refs.chartDom)
     this.eInstance = echarts.init(this.$refs.chartDom)
     const options = {
-      title: {
-        left: 'center',
-        text: '各设备用水情况',
-        textStyle: {
-          fontSize: 18,
-          color: '#fff'
-        }
-      },
+      // title: {
+      //   left: 'center',
+      //   text: '各设备用水情况',
+      //   textStyle: {
+      //     fontSize: 18,
+      //     color: '#fff'
+      //   }
+      // },
       color: ['rgba(4, 49, 128, 0.6)'],
       tooltip: {
         trigger: 'axis',
@@ -56,5 +63,16 @@ export default {
   width: 100%;
   height: 100%;
   // background-color: yellowgreen;
+  position: relative;
+  .chart-dom {
+    width: 100%;
+    height: 100%;
+  }
+  .chart-filter {
+    position: absolute;
+    top: 70px;
+    right: 70px;
+    z-index: 99;
+  }
 }
 </style>

@@ -1,5 +1,5 @@
 <template>
-  <div class="bottom-table-1">
+  <div class="bottom-table-3">
     <dv-scroll-board :config="config" />
   </div>
 </template>
@@ -29,7 +29,7 @@ export default {
 </script>
 
 <style lang="less" scoped>
-.bottom-table-1 {
+.bottom-table-3 {
   width: 100%;
   height: 100%;
   box-sizing: border-box;

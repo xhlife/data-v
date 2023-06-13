@@ -9,11 +9,12 @@ import {
   fullScreenContainer,
   borderBox8,
   borderBox7,
-  borderBox6,
   borderBox13,
+  borderBox11,
   borderBox3,
   decoration1,
   decoration2,
+  decoration8,
   scrollRankingBoard,
   digitalFlop,
   scrollBoard
@@ -23,11 +24,12 @@ import {
 Vue.config.productionTip = false
 
 Vue.use(fullScreenContainer)
-  .use(borderBox6)
   .use(borderBox13)
+  .use(borderBox11)
   .use(borderBox7)
   .use(borderBox3)
   .use(borderBox8)
+  .use(decoration8)
   .use(decoration2)
   .use(scrollRankingBoard)
   .use(decoration1)

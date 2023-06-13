@@ -26,17 +26,17 @@
               <div class="scroll-table">
                 <div class="scroll-table-item item-left">
                   <dv-border-box-13>
-                    <!-- <BottomTable1Vue /> -->
+                    <BottomTable1Vue />
                   </dv-border-box-13>
                 </div>
                 <div class="scroll-table-item item-center">
                   <dv-border-box-13>
-                    <!-- <BottomTable1Vue /> -->
+                    <BottomTable2Vue />
                   </dv-border-box-13>
                 </div>
                 <div class="scroll-table-item item-right">
                   <dv-border-box-13>
-                    <!-- <BottomTable1Vue /> -->
+                    <BottomTable3Vue />
                   </dv-border-box-13>
                 </div>
               </div>
@@ -44,9 +44,15 @@
           </div>
           <div class="right-box">
             <div class="right-box-top">
-              <TopRightBarChartVue />
+              <dv-border-box-11 title="各设备用水情况">
+                <TopRightBarChartVue />
+              </dv-border-box-11>
             </div>
-            <div class="right-box-bottom">bottom</div>
+            <div class="right-box-bottom">
+              <dv-border-box-11 title="装置设备占比">
+                <BottomRightPieChartVue />
+              </dv-border-box-11>
+            </div>
           </div>
         </dv-border-box-7>
       </main>
@@ -58,15 +64,20 @@
 import LeftChart1 from './LeftChart1'
 import CenterCmp from './CenterCmp'
 import TopRightBarChartVue from './TopRightBarChart.vue'
-// import BottomTable1Vue from './BottomTable1.vue'
-
+import BottomTable1Vue from './BottomTable1.vue'
+import BottomTable2Vue from './BottomTable2.vue'
+import BottomTable3Vue from './BottomTable3.vue'
+import BottomRightPieChartVue from './BottomRightPieChart.vue'
 export default {
   name: 'DataView',
   components: {
     LeftChart1,
     CenterCmp,
-    TopRightBarChartVue
-    // BottomTable1Vue
+    TopRightBarChartVue,
+    BottomRightPieChartVue,
+    BottomTable1Vue,
+    BottomTable2Vue,
+    BottomTable3Vue
   },
   data() {
     return {}
@@ -155,14 +166,22 @@ export default {
     }
     .right-box {
       // background-color: #ccc;
+      position: relative;
       width: 30%;
+      .right-decorate {
+        position: absolute;
+        left: 0;
+        width: 30px;
+        height: 100%;
+        // background-color: pink;
+      }
       .right-box-top {
         height: 55%;
         // background-color: skyblue;
       }
       .right-box-bottom {
         height: 45%;
-        background-color: #fff;
+        // background-color: #fff;
       }
     }
   }
