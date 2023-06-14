@@ -1,6 +1,12 @@
 <template>
   <div class="bottom-table-2">
-    <dv-scroll-board :config="config" />
+    <!-- <div class="title">水压预警设备</div> -->
+    <dv-decoration-7 style="width:100%;height:40px;">
+      <span style="padding:0 15px">水压预警设备</span>
+    </dv-decoration-7>
+    <div class="table">
+      <dv-scroll-board :config="config" />
+    </div>
   </div>
 </template>
 
@@ -9,7 +15,11 @@ export default {
   data() {
     return {
       config: {
-        header: ['列1', '列2', '列3'],
+        header: ['装置名', '设备位号', '水压'],
+        index: true,
+        align: ['center'],
+        headerBGC: '#124086',
+        columnWidth: [50, 110, 120, 110],
         data: [
           ['行1列1', '行1列2', '行1列3'],
           ['行2列1', '行2列2', '行2列3'],
@@ -33,6 +43,16 @@ export default {
   width: 100%;
   height: 100%;
   box-sizing: border-box;
-  padding: 20px;
+  padding: 0 20px;
+  padding-top: 10px;
+  .title {
+    font-size: 18px;
+    line-height: 40px;
+    text-align: center;
+  }
+  .table {
+    width: 100%;
+    height: 80%;
+  }
 }
 </style>

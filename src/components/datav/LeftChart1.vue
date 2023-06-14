@@ -1,65 +1,147 @@
 <template>
   <div class="left-chart-1">
-    <div class="lc1-header">装置用水量排行</div>
-    <div class="lc1-details">排行top20</div>
-    <!-- <dv-capsule-chart class="lc1-chart" :config="config" /> -->
-    <dv-scroll-ranking-board class="lc1-chart" :config="config" />
+    <div class="lc1-header">装置用水量排行(top20)</div>
+    <div class="chart-dom" ref="chartDom" @mouseenter="handleMouseEnter" @mouseleave="handleMouseLeave"></div>
   </div>
 </template>
 
 <script>
+import echarts from '@/lib/echart'
 export default {
   name: 'LeftChart1',
   data() {
     return {
-      config: {
-        data: [
-          {
-            name: '装置1',
-            value: 120
+      aniInterval: null,
+      yAxisData: [
+        '装置1',
+        '装置2',
+        '装置3',
+        '装置4',
+        '装置5',
+        '装置6',
+        '装置7',
+        '装置8',
+        '装置9',
+        '装置10',
+        '装置11',
+        '装置12',
+        '装置13',
+        '装置14',
+        '装置15',
+        '装置16',
+        '装置17',
+        '装置18',
+        '装置19',
+        '装置20'
+      ],
+      seriesData: [200, 188, 180, 175, 164, 157, 146, 134, 130, 123, 109, 96, 89, 80, 78, 70, 67, 64, 50, 44],
+      chartIns: null,
+      colors: ['#5470c6', '#91cc75', '#fac858', '#ee6666', '#73c0de', '#3ba272', '#fc8452', '#9a60b4', '#ea7ccc'],
+      option: {
+        grid: {
+          top: 0,
+          left: 50,
+          bottom: 0
+        },
+        tooltip: {
+          trigger: 'item',
+          axisPointer: {
+            type: 'shadow'
+          }
+        },
+        xAxis: {
+          max: 'dataMax',
+          show: false
+        },
+        yAxis: {
+          axisTick: {
+            show: false
           },
-          {
-            name: '装置2',
-            value: 110
+          axisLine: {
+            show: false // 不显示坐标轴线
           },
-          {
-            name: '装置3',
-            value: 107
+          axisLabel: {
+            show: true, // 显示刻度值标签
+            color: '#fff' // 刻度值标签字体颜色
           },
+          type: 'category',
+          data: [],
+          inverse: true,
+          animationDuration: 300,
+          animationDurationUpdate: 300,
+          max: 8 // only the largest 3 bars will be displayed
+        },
+        series: [
           {
-            name: '装置4',
-            value: 99
-          },
-          {
-            name: '装置5',
-            value: 98
-          },
-          {
-            name: '装置6',
-            value: 90
-          },
-          {
-            name: '装置7',
-            value: 88
-          },
-          {
-            name: '装置7',
-            value: 88
-          },
-          {
-            name: '装置7',
-            value: 88
+            // name: 'th',
+            type: 'bar',
+            data: [],
+            label: {
+              show: true,
+              position: 'right',
+              valueAnimation: true,
+              color: '#fff'
+            },
+            barWidth: 16,
+            itemStyle: {
+              // 柱状图每个柱子的样式
+              borderRadius: [0, 8, 8, 0] // 设置圆角大小为5像素
+            }
           }
         ],
-        colors: ['#00baff', '#3de7c9', '#fff', '#ffc530', '#469f4b'],
-        unit: 'L'
+        animationDuration: 0,
+        animationDurationUpdate: 800,
+        animationEasing: 'linear',
+        animationEasingUpdate: 'linear'
       }
+    }
+  },
+  mounted() {
+    const len = this.colors.length
+    this.seriesData = this.seriesData.map((v, i) => {
+      const color = this.colors[i % len]
+      return {
+        value: v,
+        name: this.yAxisData[i],
+        itemStyle: {
+          color
+        }
+      }
+    })
+    // debugger
+    this.option.yAxis.data = this.yAxisData
+    this.option.series[0].data = this.seriesData
+    this.initChart()
+  },
+  methods: {
+    initChart() {
+      this.chartIns = echarts.init(this.$refs.chartDom)
+      this.chartIns.setOption(this.option)
+      this.setInv()
+    },
+    setInv() {
+      this.aniInterval = setInterval(() => {
+        this.startMove()
+      }, 3000)
+    },
+    startMove() {
+      const tmpYAxis = this.yAxisData.shift()
+      this.yAxisData.push(tmpYAxis)
+      const tmpSeries = this.seriesData.shift()
+      this.seriesData.push(tmpSeries)
+      this.chartIns.setOption(this.option)
+    },
+    handleMouseEnter() {
+      clearInterval(this.aniInterval)
+    },
+    handleMouseLeave() {
+      this.setInv()
     }
   }
 }
 </script>
 
-<style lang="less">
+<style lang="less" scoped>
 .left-chart-1 {
   width: 100%;
   height: 100%;
@@ -73,27 +155,25 @@ export default {
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size: 30px;
+    font-size: 24px;
     margin-bottom: 10px;
   }
+  // .lc1-details {
+  //   height: 50px;
+  //   font-size: 16px;
+  //   display: flex;
+  //   align-items: center;
+  //   text-indent: 20px;
+  //   color: #096dd9;
+  // }
 
-  .lc1-details {
-    height: 50px;
-    font-size: 16px;
-    display: flex;
-    align-items: center;
-    text-indent: 20px;
-
-    span {
-      color: #096dd9;
-      font-weight: bold;
-      font-size: 35px;
-      margin-left: 20px;
-    }
-  }
-
-  .lc1-chart {
-    flex: 1;
+  // .lc1-chart {
+  //   flex: 1;
+  // }
+  .chart-dom {
+    width: 100%;
+    height: calc(100% - 40px);
+    // background-color: #fff;
   }
 }
 </style>

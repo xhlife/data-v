@@ -14,6 +14,7 @@ import {
   borderBox3,
   decoration1,
   decoration2,
+  decoration7,
   decoration8,
   scrollRankingBoard,
   digitalFlop,
@@ -30,9 +31,10 @@ Vue.use(fullScreenContainer)
   .use(borderBox3)
   .use(borderBox8)
   .use(decoration8)
+  .use(decoration7)
   .use(decoration2)
-  .use(scrollRankingBoard)
   .use(decoration1)
+  .use(scrollRankingBoard)
   .use(digitalFlop)
   .use(scrollBoard)
 // .use(activeRingChart)

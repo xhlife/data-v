@@ -36,7 +36,7 @@ export default {
       //     color: '#fff'
       //   }
       // },
-      color: ['rgba(4, 49, 128, 0.6)'],
+      color: ['#5470c6', '#91cc75', '#fac858', '#ee6666', '#73c0de', '#3ba272', '#fc8452', '#9a60b4', '#ea7ccc'],
       tooltip: {
         trigger: 'axis',
         axisPointer: {
@@ -53,6 +53,7 @@ export default {
       },
       series: [
         {
+          name: '单位: t/h',
           data: [120, 200, 150, 80, 70, 110, 130],
           type: 'bar'
         }
