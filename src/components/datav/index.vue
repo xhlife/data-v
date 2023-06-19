@@ -158,8 +158,12 @@ export default {
           display: flex;
           height: 100%;
           .scroll-table-item {
-            flex: 1;
+            flex: 1.1;
             height: 100%;
+            box-sizing: border-box;
+            &:last-child {
+              flex: 0.8;
+            }
           }
         }
       }

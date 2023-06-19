@@ -19,7 +19,7 @@ export default {
         index: true,
         align: ['center'],
         headerBGC: '#124086',
-        columnWidth: [50, 110, 120, 110],
+        columnWidth: [50, 110, 120, 100],
         data: [
           ['行1列1', '行1列2', '行1列3'],
           ['行2列1', '行2列2', '行2列3'],
