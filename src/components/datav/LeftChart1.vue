@@ -1,12 +1,13 @@
 <template>
   <div class="left-chart-1">
-    <div class="lc1-header">装置用水量排行(top20)</div>
+    <div class="lc1-header">装置用水量排行</div>
     <div class="chart-dom" ref="chartDom" @mouseenter="handleMouseEnter" @mouseleave="handleMouseLeave"></div>
   </div>
 </template>
 
 <script>
-import echarts from '@/lib/echart'
+import echarts, { dfColors } from '@/lib/echart'
+import { ajaxGet } from '../../lib/_ajax'
 export default {
   name: 'LeftChart1',
   data() {
@@ -36,12 +37,13 @@ export default {
       ],
       seriesData: [200, 188, 180, 175, 164, 157, 146, 134, 130, 123, 109, 96, 89, 80, 78, 70, 67, 64, 50, 44],
       chartIns: null,
-      colors: ['#5470c6', '#91cc75', '#fac858', '#ee6666', '#73c0de', '#3ba272', '#fc8452', '#9a60b4', '#ea7ccc'],
+      colors: dfColors,
       option: {
         grid: {
           top: 0,
-          left: 50,
-          bottom: 0
+          left: 60,
+          bottom: 0,
+          right: 57
         },
         tooltip: {
           trigger: 'item',
@@ -97,21 +99,24 @@ export default {
     }
   },
   mounted() {
-    const len = this.colors.length
-    this.seriesData = this.seriesData.map((v, i) => {
-      const color = this.colors[i % len]
-      return {
-        value: v,
-        name: this.yAxisData[i],
-        itemStyle: {
-          color
+    ajaxGet('/view/device/GetOrderEquipment').then(res => {
+      this.yAxisData = res.data.map(item => item.Equipment)
+      this.seriesData = res.data.map(item => item.Flux)
+      const len = this.colors.length
+      this.seriesData = this.seriesData.map((v, i) => {
+        const color = this.colors[i % len]
+        return {
+          value: v,
+          name: this.yAxisData[i],
+          itemStyle: {
+            color
+          }
         }
-      }
+      })
+      this.option.yAxis.data = this.yAxisData
+      this.option.series[0].data = this.seriesData
+      this.initChart()
     })
-    // debugger
-    this.option.yAxis.data = this.yAxisData
-    this.option.series[0].data = this.seriesData
-    this.initChart()
   },
   methods: {
     initChart() {

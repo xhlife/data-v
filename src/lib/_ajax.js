@@ -1,4 +1,6 @@
-function _ajax(url, method, data, base = 'http://43.143.98.14/') {
+const baseURL = process.env === 'production' ? 'http://43.143.98.14/' : 'http://192.168.1.101:9548/'
+
+function _ajax(url, method, data, base = baseURL) {
   return new Promise((resolve, reject) => {
     const xhr = new XMLHttpRequest()
 
@@ -20,10 +22,10 @@ function _ajax(url, method, data, base = 'http://43.143.98.14/') {
   })
 }
 
-function ajaxGet(url) {
+export function ajaxGet(url) {
   return _ajax(url, 'GET')
 }
 
-function ajaxPost(url, data) {
+export function ajaxPost(url, data) {
   return _ajax(url, 'post', data)
 }

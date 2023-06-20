@@ -1,11 +1,12 @@
 <template>
   <div class="pie-chart">
     <div class="chart-dom" ref="chartDom"></div>
+    <!-- <div v-show="!showPie">暂无数据</div> -->
     <div class="chart-filter">
       <select @change="handleSelectChange">
-        <option value="option1">Option 1</option>
-        <option value="option2">Option 2</option>
-        <option value="option3">Option 3</option>
+        <option value="1">一循</option>
+        <option value="2">二循</option>
+        <option value="3">三循</option>
       </select>
     </div>
   </div>
@@ -13,112 +14,104 @@
 
 <script>
 import echarts from '../../lib/echart'
+import { ajaxGet } from '../../lib/_ajax'
 export default {
   data() {
     return {
-      eInstance: null
+      eInstance: null,
+      dataUrl: '/view/device/GetProportion?level=',
+      options: {
+        legend: {
+          left: 'center',
+          bottom: '3%',
+          textStyle: {
+            color: '#fff'
+          }
+        },
+        series: [
+          {
+            name: 'no data',
+            type: 'pie',
+            radius: [30, 120],
+            center: ['50%', '50%'],
+            roseType: 'area',
+            itemStyle: {
+              borderRadius: 6
+            },
+            label: {
+              alignTo: 'edge',
+              formatter: '{name|{b}}\n{time|{c} %}',
+              minMargin: 5,
+              edgeDistance: 35,
+              lineHeight: 15,
+              textStyle: {
+                color: '#fff'
+              },
+              rich: {
+                time: {
+                  fontSize: 10,
+                  color: '#fff'
+                }
+              }
+            },
+            labelLine: {
+              length: 15,
+              length2: 0,
+              maxSurfaceAngle: 80
+            },
+            // labelLayout: function(params) {
+            //   const isLeft = params.labelRect.x < this.eInstance.getWidth() / 2
+            //   const points = params.labelLinePoints
+            //   // Update the end point.
+            //   points[2][0] = isLeft ? params.labelRect.x : params.labelRect.x + params.labelRect.width
+            //   return {
+            //     labelLinePoints: points
+            //   }
+            // },
+            data: [
+              // { value: 40, name: 'rose 1' },
+              // { value: 38, name: 'rose 2' },
+              // { value: 32, name: 'rose 3' },
+              // { value: 30, name: 'rose 4' },
+              // { value: 28, name: 'rose 5' },
+              // { value: 26, name: 'rose 6' },
+              // { value: 22, name: 'rose 7' },
+              // { value: 18, name: 'rose 8' }
+            ]
+          }
+        ]
+      }
     }
   },
   mounted() {
     // console.log(this.$refs.chartDom)
     this.eInstance = echarts.init(this.$refs.chartDom)
-    const options = {
-      // title: {
-      //   left: 'center',
-      //   text: '装置设备占比',
-      //   textStyle: {
-      //     fontSize: 18,
-      //     color: '#fff'
-      //   }
-      // },
-      legend: {
-        top: 'bottom'
-      },
-      // toolbox: {
-      //   show: true,
-      //   feature: {
-      //     mark: { show: true },
-      //     dataView: { show: true, readOnly: false },
-      //     restore: { show: true },
-      //     saveAsImage: { show: true }
-      //   }
-      // },
-      series: [
-        {
-          name: 'Nightingale Chart',
-          type: 'pie',
-          radius: [30, 120],
-          center: ['50%', '50%'],
-          roseType: 'area',
-          itemStyle: {
-            borderRadius: 6
-          },
-          data: [
-            { value: 40, name: 'rose 1' },
-            { value: 38, name: 'rose 2' },
-            { value: 32, name: 'rose 3' },
-            { value: 30, name: 'rose 4' },
-            { value: 28, name: 'rose 5' },
-            { value: 26, name: 'rose 6' },
-            { value: 22, name: 'rose 7' },
-            { value: 18, name: 'rose 8' }
-          ]
-        }
-      ]
-    }
-    this.eInstance.setOption(options)
+    this.changeData('1')
   },
   methods: {
-    handleSelectChange(e) {
-      if (e.target.value === 'option2') {
-        const data = [
-          { value: 22, name: 'hhh' },
-          { value: 38, name: 'rkkk' },
-          { value: 45, name: 'objs' },
-          { value: 27, name: 'asdgd' },
-          { value: 32, name: 'sgnsk' },
-          { value: 21, name: '8887' },
-          { value: 17, name: 'skgjk3' },
-          { value: 18, name: 's8dj' }
-        ]
-        this.eInstance.setOption({
-          series: [{ data }]
-        })
-        return
-      }
-      if (e.target.value === 'option3') {
-        const data = [
-          { value: 22, name: 'rose 9' },
-          { value: 23, name: 'rose 10' },
-          { value: 24, name: 'rose 11' },
-          { value: 27, name: 'rose 12' },
-          { value: 16, name: 'rose 13' },
-          { value: 43, name: 'rose 14' },
-          { value: 34, name: 'rose 15' },
-          { value: 18, name: 'rose 16' }
-        ]
-        this.eInstance.setOption({
-          series: [{ data }]
-        })
-        return
-      }
-      this.eInstance.setOption({
-        series: [
-          {
-            data: [
-              { value: 40, name: 'rose 1' },
-              { value: 38, name: 'rose 2' },
-              { value: 32, name: 'rose 3' },
-              { value: 30, name: 'rose 4' },
-              { value: 28, name: 'rose 5' },
-              { value: 26, name: 'rose 6' },
-              { value: 22, name: 'rose 7' },
-              { value: 18, name: 'rose 8' }
-            ]
+    changeData(type) {
+      ajaxGet(this.dataUrl + type).then(res => {
+        this.mapData = res.data
+        const dataList = Object.entries(res.data)
+        this.options.series[0].data = dataList.map(item => {
+          return {
+            value: item[1].split('%')[0],
+            name: item[0]
           }
-        ]
+        })
+        this.eInstance.setOption(this.options)
       })
-      console.log(e.target.value)
+    },
+    handleSelectChange(e) {
+      if (e.target.value === '2') {
+        this.changeData('2')
+        return
+      }
+      if (e.target.value === '3') {
+        this.changeData('3')
+        return
+      }
+      this.changeData('1')
     }
   }
 }
@@ -136,8 +129,8 @@ export default {
   }
   .chart-filter {
     position: absolute;
-    top: 70px;
-    right: 70px;
+    top: 48px;
+    right: 50px;
     z-index: 99;
   }
 }

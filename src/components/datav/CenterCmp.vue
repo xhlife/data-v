@@ -8,10 +8,17 @@
 
     <div class="cc-details">
       <div>当前实际耗水总量</div>
-      <div class="card">2</div>
+      <!-- <div class="card">2</div>
       <div class="card">1</div>
       <div class="card">3</div>
       <div class="card">7</div>
+      <div class="card">7</div>
+      <span>.</span>
+      <div class="card">7</div>
+      <div class="card">7</div> -->
+      <div class="card" :class="{ point: item === '.' }" v-for="(item, idx) in totalWaterArr" :key="idx">
+        {{ item }}
+      </div>
       <div>t/h</div>
     </div>
 
@@ -21,7 +28,7 @@
           <dv-border-box-8>
             <div class="container-item-content">
               <div class="item-content-title">额定水量</div>
-              <div class="item-content-text">100th</div>
+              <div class="item-content-text">{{ extraWaterNum }}th</div>
             </div>
           </dv-border-box-8>
         </div>
@@ -29,7 +36,7 @@
           <dv-border-box-8 :reverse="true">
             <div class="container-item-content">
               <div class="item-content-title">设备数</div>
-              <div class="item-content-text">132个</div>
+              <div class="item-content-text">{{ pumpNum }}个</div>
             </div>
           </dv-border-box-8>
         </div>
@@ -37,7 +44,7 @@
           <dv-border-box-8>
             <div class="container-item-content">
               <div class="item-content-title">换热器数</div>
-              <div class="item-content-text">37个</div>
+              <div class="item-content-text">{{ heatNum }}个</div>
             </div>
           </dv-border-box-8>
         </div>
@@ -45,7 +52,7 @@
           <dv-border-box-8 :reverse="true">
             <div class="container-item-content">
               <div class="item-content-title">风机数</div>
-              <div class="item-content-text">66个</div>
+              <div class="item-content-text">{{ towerNum }}个</div>
             </div>
           </dv-border-box-8>
         </div>
@@ -57,13 +64,7 @@
             <div class="divide"></div>
             <div class="des">
               <div class="text" ref="textBox" @mouseover="handleMouseover" @mouseleave="handleMouseLeave">
-                北京时间2023年6月13日，2022-2023赛季NBA总决赛进行第五场争夺。
-                最终，回到主场的丹佛掘金以94-89击败迈阿密热火，大比分4-1战胜对手，成功捧起NBA总冠军奖杯。
-                值得一提的是，这是掘金队史上首个NBA总冠军奖杯。
-                1976年NBA和ABA合并后，掘金只进入过3次分区决赛，其中两次都输给了洛杉矶湖人。本赛季，掘金战胜詹姆斯领衔的湖人，首次挺进总决赛的同时，也完成了复仇。
-                掘金的对手迈阿密热火，队史上曾3次捧起总冠军奖杯。本赛季季后赛，热火一路战胜步行者、雄鹿、尼克斯、凯尔特人，成为历史上第六支完成黑八奇迹的球队，成功杀进总决赛。
-                总决赛前四战，第一次来到总决赛舞台的掘金表现更胜一筹。掘金只在主场丢掉一分，大比分3-1领先热火，手握冠军点。
-                回到主场的掘金不希望错过这样的天时地利人和，期待在G5就能结束战斗。
+                本系统是根据石化企业实际循环冷却水系统的拓扑结构、设备设计及操作参数、平台布置等信息而定制基于BS循环冷却水系统的模拟平台和智能化预警系统，集成考虑工艺物流热源热量、循环水流量、循环水进出口温度、压力以及结垢变化影响的关键水冷器、凉水塔、管路节点的预警监控，一站式监控当前过程信息，定时向DCS系统取数，为CS端软件计算提供实时数据支撑。并且将各种信息共享给相关人员，促进信息沟通和协作，提高工作效率和质量，通过对数据进行分析和挖掘，可以提供决策支持，帮助其制定更加科学、合理的决策，以便于工程人员对循环水数据进行观察、分析和决策，并实时监控各种业务指标、设备状态等信息，及时发现问题并采取措施。
               </div>
             </div>
           </div>
@@ -74,45 +75,39 @@
 </template>
 
 <script>
+import { ajaxGet } from '../../lib/_ajax'
 export default {
   name: 'CenterCmp',
   components: {},
   data() {
     return {
-      config: {
-        data: [
-          {
-            name: '收费站',
-            value: 1315
-          },
-          {
-            name: '监控中心',
-            value: 415
-          },
-          {
-            name: '道路外场',
-            value: 90
-          },
-          {
-            name: '其他',
-            value: 317
-          }
-        ],
-        color: ['#00baff', '#3de7c9', '#fff', '#ffc530', '#469f4b'],
-        lineWidth: 30,
-        radius: '55%',
-        activeRadius: '60%'
-      },
       moveReqId: null,
       scaleX: 1,
       scaleY: 1,
       textBoxW: 0,
       textBoxY: 0,
-      moveStep: 1
+      moveStep: 1,
+      totalWater: '1000',
+      heatNum: 0,
+      pumpNum: 0,
+      towerNum: 0,
+      extraWaterNum: 35500
+    }
+  },
+  computed: {
+    totalWaterArr() {
+      return this.totalWater.split('')
     }
   },
   mounted() {
     this.initBoxInfo()
+    ajaxGet('/view/device/GetStatistics').then(res => {
+      this.totalWater = res.data.flux
+      this.heatNum = res.data.heat
+      this.pumpNum = res.data.pump
+      this.towerNum = res.data.tower
+      // console.log(res)
+    })
     setTimeout(() => {
       this.startMove()
     }, 2000)
@@ -139,13 +134,13 @@ export default {
         this.textBoxW = textBox.clientWidth
         this.textBoxY = textBox.clientHeight
       }
-      console.log(this.textBoxW, this.textBoxY)
+      // console.log(this.textBoxW, this.textBoxY)
     },
     startMove() {
       const textBox = this.$refs.textBox
       this.moveStep += 0.8
       textBox.style.transform = `translateY(-${this.moveStep}px)`
-      if (this.moveStep > this.textBoxY - 90) {
+      if (this.moveStep > this.textBoxY - 105) {
         textBox.style.transform = `translateY(-${this.moveStep}px)`
         setTimeout(() => {
           this.moveStep = 0
@@ -191,13 +186,20 @@ export default {
     .card {
       background-color: rgba(4, 49, 128, 0.6);
       color: #08e5ff;
-      height: 70px;
-      width: 70px;
+      height: 60px;
+      width: 60px;
       font-size: 45px;
       font-weight: bold;
       line-height: 70px;
       text-align: center;
-      margin: 10px;
+      margin: 5px;
+    }
+    .card.point {
+      display: inline-block;
+      width: 10px;
+      height: 10px;
+      background-color: transparent;
+      line-height: 0.9;
     }
   }
 

@@ -33,6 +33,18 @@ echarts.use([
   CanvasRenderer
 ])
 
+export const dfColors = [
+  '#5470c6',
+  '#91cc75',
+  '#fac858',
+  '#ee6666',
+  '#73c0de',
+  '#3ba272',
+  '#fc8452',
+  '#9a60b4',
+  '#ea7ccc'
+]
+
 export default echarts
 // // 接下来的使用就跟之前一样，初始化图表，设置配置项
 // var myChart = echarts.init(document.getElementById('main'));

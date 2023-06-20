@@ -4,7 +4,7 @@
       <header id="header-container">
         <div class="header-info header-info-l">数据来源：技术规范 &amp; 工厂实地</div>
         <h3 class="header-title">循环冷却水系统概况</h3>
-        <div class="header-info header-info-r">数据日期：<span id="nowDate">xx年xx月xx日xx时xx分xx秒</span></div>
+        <div class="header-info header-info-r">数据日期：<span id="nowDate">{{ year }}年{{ month }}月{{ day }}日</span></div>
       </header>
       <main class="main-container">
         <dv-border-box-7 class="content-box">
@@ -80,9 +80,18 @@ export default {
     BottomTable3Vue
   },
   data() {
-    return {}
+    return {
+      year: '',
+      month: '',
+      day: ''
+    }
   },
-  mounted() {}
+  mounted() {
+    const d = new Date()
+    this.year = d.getFullYear()
+    this.month = d.getMonth() + 1
+    this.day = d.getDay()
+  }
 }
 </script>
 
