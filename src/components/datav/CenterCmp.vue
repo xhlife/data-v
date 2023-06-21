@@ -242,7 +242,7 @@ export default {
     }
     .cc-main-container-bottom {
       margin-top: 10px;
-      width: 50%;
+      width: 80%;
       height: 55%;
       cursor: pointer;
       .content {

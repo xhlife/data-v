@@ -11,6 +11,7 @@
 </template>
 
 <script>
+import { ajaxGet } from '../../lib/_ajax'
 export default {
   data() {
     return {
@@ -21,16 +22,16 @@ export default {
         headerBGC: '#124086',
         columnWidth: [50, 110, 120, 110],
         data: [
-          ['Xc', '123', 8000],
-          ['Xb', '124', 3400],
-          ['XN', '125', 5030],
-          ['XL', '126', 7921],
-          ['VKv', '127', 3232],
-          ['kks', '128', 4562],
-          ['ksid', '129', 7626],
-          ['iosj', '130', 6726],
-          ['iaojs', '131', 2932],
-          ['diso', '132', 7782]
+          // ['Xc', '123', 8000],
+          // ['Xb', '124', 3400],
+          // ['XN', '125', 5030],
+          // ['XL', '126', 7921],
+          // ['VKv', '127', 3232],
+          // ['kks', '128', 4562],
+          // ['ksid', '129', 7626],
+          // ['iosj', '130', 6726],
+          // ['iaojs', '131', 2932],
+          // ['diso', '132', 7782]
         ]
       }
     }
@@ -52,19 +53,32 @@ export default {
     雷诺数低于6000的设备信息
     其中雷诺数在4000以下的需将该雷诺数标红，雷诺数在4000到6000的将该雷诺数标黄，
   */
-    const d = this.config.data.map(item => {
-      if (item[2] > 6000) {
-        item[2] = `<span style="color:#9fe6b8;">${item[2]}</span>`
-      } else if (item[2] > 4000) {
-        item[2] = `<span style="color:#ffdb5c;">${item[2]}</span>`
-      } else {
-        item[2] = `<span style="color:#f56c6c;">${item[2]}</span>`
+    this.getData()
+  },
+  methods: {
+    getData() {
+      ajaxGet('/view/device/GetHeatLt6000').then(res => {
+        // console.log(res)
+        this.formatData(res.data)
+      })
+    },
+    formatData(data) {
+      const tmp = [...data.warning, ...data.error]
+      const mapTmp = tmp.map(item => [item.Equipment, item.name, item.TubeRe])
+      const d = mapTmp.map(item => {
+        if (item[2] > 6000) {
+          item[2] = `<span style="color:#9fe6b8;">${item[2]}</span>`
+        } else if (item[2] > 4000) {
+          item[2] = `<span style="color:#ffdb5c;">${item[2]}</span>`
+        } else {
+          item[2] = `<span style="color:#f56c6c;">${item[2]}</span>`
+        }
+        return item
+      })
+      this.config = {
+        ...this.config,
+        data: d
       }
-      return item
-    })
-    this.config = {
-      ...this.config,
-      data: d
     }
   }
 }

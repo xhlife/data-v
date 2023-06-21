@@ -23,7 +23,7 @@ export default {
       options: {
         legend: {
           left: 'center',
-          bottom: '3%',
+          bottom: '2%',
           textStyle: {
             color: '#fff'
           }

@@ -11,6 +11,7 @@
 </template>
 
 <script>
+import { ajaxGet } from '../../lib/_ajax'
 export default {
   data() {
     return {
@@ -21,18 +22,33 @@ export default {
         headerBGC: '#124086',
         columnWidth: [50, 100, 100],
         data: [
-          ['行1列1', '行1列2'],
-          ['行2列1', '行2列2'],
-          ['行3列1', '行3列2'],
-          ['行4列1', '行4列2'],
-          ['行5列1', '行5列2'],
-          ['行6列1', '行6列2'],
-          ['行7列1', '行7列2'],
-          ['行8列1', '行8列2'],
-          ['行9列1', '行9列2'],
-          ['行10列1', '行10列2']
+          // ['行1列1', '行1列2'],
+          // ['行2列1', '行2列2'],
+          // ['行3列1', '行3列2'],
+          // ['行4列1', '行4列2'],
+          // ['行5列1', '行5列2'],
+          // ['行6列1', '行6列2'],
+          // ['行7列1', '行7列2'],
+          // ['行8列1', '行8列2'],
+          // ['行9列1', '行9列2'],
+          // ['行10列1', '行10列2']
         ]
       }
+    }
+  },
+  mounted() {
+    this.getData()
+  },
+  methods: {
+    getData() {
+      ajaxGet('/view/device/GetHeatGood').then(res => {
+        // console.log(res)
+        const d = res.data.map(item => [item.Equipment, item.name])
+        this.config = {
+          ...this.config,
+          data: d
+        }
+      })
     }
   }
 }
