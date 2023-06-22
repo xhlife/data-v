@@ -16,7 +16,7 @@ export default {
   data() {
     return {
       config: {
-        header: ['装置名', '设备位号', '水压'],
+        header: ['装置名', '设备名称', '水压'],
         index: true,
         align: ['center'],
         headerBGC: '#124086',

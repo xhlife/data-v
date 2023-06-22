@@ -3,8 +3,11 @@
     <dv-full-screen-container>
       <header id="header-container">
         <div class="header-info header-info-l">数据来源：技术规范 &amp; 工厂实地</div>
-        <h3 class="header-title">循环冷却水系统概况</h3>
-        <div class="header-info header-info-r">数据日期：<span id="nowDate">{{ year }}年{{ month }}月{{ day }}日</span></div>
+        <div class="header-info header-title">循环冷却水系统概况</div>
+        <div class="header-info header-info-r">
+          数据日期：
+          <span id="nowDate"> {{ year }}年{{ month }}月{{ day }}日 {{ hour }}时{{ minute }}分{{ second }}秒 </span>
+        </div>
       </header>
       <main class="main-container">
         <dv-border-box-7 class="content-box">
@@ -83,14 +86,29 @@ export default {
     return {
       year: '',
       month: '',
-      day: ''
+      day: '',
+      hour: '',
+      minute: '',
+      second: ''
     }
   },
   mounted() {
     const d = new Date()
     this.year = d.getFullYear()
-    this.month = d.getMonth() + 1
-    this.day = d.getDay()
+    const tmpMonth = d.getMonth() + 1
+    this.month = tmpMonth > 9 ? tmpMonth : '0' + tmpMonth
+    const tmpDay = d.getDay()
+    this.day = tmpDay > 9 ? tmpDay : '0' + tmpDay
+
+    const tmpHour = d.getHours()
+    this.hour = tmpHour > 9 ? tmpHour : '0' + tmpHour
+
+    const tmpMin = d.getMinutes()
+    this.minute = tmpMin > 9 ? tmpMin : '0' + tmpMin
+
+    const tmpSecond = d.getSeconds()
+
+    this.second = tmpSecond > 9 ? tmpSecond : '0' + tmpSecond
   }
 }
 </script>
@@ -123,6 +141,16 @@ export default {
     z-index: 999;
     background: url('./img/header.png') no-repeat center center;
     // margin-bottom: 16px;
+    .header-info {
+      flex: 1;
+      &:nth-child(2) {
+        padding-left: 200px;
+        font-size: 32px;
+      }
+      &:last-child {
+        text-align: right;
+      }
+    }
   }
   .main-container {
     box-sizing: border-box;

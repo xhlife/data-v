@@ -28,7 +28,7 @@
           <dv-border-box-8>
             <div class="container-item-content">
               <div class="item-content-title">额定水量</div>
-              <div class="item-content-text">{{ extraWaterNum }}th</div>
+              <div class="item-content-text">{{ extraWaterNum }}t/h</div>
             </div>
           </dv-border-box-8>
         </div>

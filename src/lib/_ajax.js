@@ -1,4 +1,4 @@
-const baseURL = process.env === 'production' ? 'http://43.143.98.14/' : window.location.origin
+const baseURL = window.location.origin || 'http://43.143.98.14/'
 
 function _ajax(url, method, data, base = baseURL) {
   return new Promise((resolve, reject) => {
