@@ -48,7 +48,7 @@ export default {
     formatData(data) {
       // console.log(data)
       const tmp = [...data.warning, ...data.error].filter(item => item.name !== '')
-      const mapTmp = tmp.map(item => [item.Equipment, item.name, item.TubeRe])
+      const mapTmp = tmp.map(item => [item.Equipment, item.name, item.TubePreIn])
       const d = mapTmp.map(item => {
         if (item[2] > 300) {
           item[2] = `<span style="color:#9fe6b8;">${item[2]}</span>`

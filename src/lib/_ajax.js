@@ -1,5 +1,7 @@
 const baseURL = window.location.origin || 'http://43.143.98.14/'
 
+// const baseURL = 'http://localhost:9200'
+// const baseURL = 'http://43.143.98.14'
 function _ajax(url, method, data, base = baseURL) {
   return new Promise((resolve, reject) => {
     const xhr = new XMLHttpRequest()
