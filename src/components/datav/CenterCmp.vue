@@ -128,8 +128,10 @@ export default {
         const scaleY = parseFloat(matrixValues[3])
         this.scaleX = scaleX
         this.scaleY = scaleY
-        this.textBoxW = textBox.clientWidth * this.scaleX
-        this.textBoxY = textBox.clientHeight * this.scaleY
+        // this.textBoxW = textBox.clientWidth * this.scaleX
+        // this.textBoxY = textBox.clientHeight * this.scaleY
+        this.textBoxW = textBox.clientWidth
+        this.textBoxY = textBox.clientHeight
       } else {
         this.textBoxW = textBox.clientWidth
         this.textBoxY = textBox.clientHeight
@@ -138,7 +140,7 @@ export default {
     },
     startMove() {
       const textBox = this.$refs.textBox
-      this.moveStep += 0.8
+      this.moveStep += 0.5
       textBox.style.transform = `translateY(-${this.moveStep}px)`
       if (this.moveStep > this.textBoxY - 105) {
         textBox.style.transform = `translateY(-${this.moveStep}px)`

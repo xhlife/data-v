@@ -15,7 +15,16 @@
             <div class="left-box-top">
               <div class="left-box-top-left">
                 <dv-border-box-3>
-                  <LeftChart1 />
+                  <LeftChart1 ref="leftChart">
+                    <template #btn>
+                      <img
+                        @click.stop="handleDetail('leftChart')"
+                        class="detail-btn"
+                        src="../../assets/kno_detail_full screen.svg"
+                        alt=""
+                      />
+                    </template>
+                  </LeftChart1>
                 </dv-border-box-3>
               </div>
               <div class="left-box-top-right">
@@ -29,17 +38,44 @@
               <div class="scroll-table">
                 <div class="scroll-table-item item-left">
                   <dv-border-box-13>
-                    <BottomTable1Vue />
+                    <BottomTable1Vue ref="bottomTable1">
+                      <template #btn>
+                        <img
+                          @click.stop="handleDetail('bottomTable1')"
+                          class="detail-btn detail-table"
+                          src="../../assets/kno_detail_full screen.svg"
+                          alt=""
+                        />
+                      </template>
+                    </BottomTable1Vue>
                   </dv-border-box-13>
                 </div>
                 <div class="scroll-table-item item-center">
                   <dv-border-box-13>
-                    <BottomTable2Vue />
+                    <BottomTable2Vue ref="bottomTable2">
+                      <template #btn>
+                        <img
+                          @click.stop="handleDetail('bottomTable2')"
+                          class="detail-btn detail-table"
+                          src="../../assets/kno_detail_full screen.svg"
+                          alt=""
+                        />
+                      </template>
+                    </BottomTable2Vue>
                   </dv-border-box-13>
                 </div>
                 <div class="scroll-table-item item-right">
                   <dv-border-box-13>
-                    <BottomTable3Vue />
+                    <BottomTable3Vue ref="bottomTable3">
+                      <template #btn>
+                        <img
+                          @click.stop="handleDetail('bottomTable3')"
+                          class="detail-btn detail-table"
+                          src="../../assets/kno_detail_full screen.svg"
+                          alt=""
+                        />
+                      </template>
+                    </BottomTable3Vue>
                   </dv-border-box-13>
                 </div>
               </div>
@@ -60,6 +96,21 @@
         </dv-border-box-7>
       </main>
     </dv-full-screen-container>
+
+    <Popup :mask-close="true" :visible.sync="visiblePopup">
+      <div class="popup-detail">
+        <div class="left-chart-1" v-if="detailType === 'chart'">
+          <div class="lc1-header">装置用水量排行</div>
+          <div class="chart-dom" ref="chartDom" :style="{ height: detailHeight + 'px' }"></div>
+        </div>
+        <div class="bottom-table-1" v-else>
+          <dv-decoration-7 style="width:100%;height:40px;">
+            <span style="padding:0 15px">{{ activeDetailConfig.title }}</span>
+          </dv-decoration-7>
+          <div class="table"></div>
+        </div>
+      </div>
+    </Popup>
   </div>
 </template>
 
@@ -71,6 +122,8 @@ import BottomTable1Vue from './BottomTable1.vue'
 import BottomTable2Vue from './BottomTable2.vue'
 import BottomTable3Vue from './BottomTable3.vue'
 import BottomRightPieChartVue from './BottomRightPieChart.vue'
+import Popup from '../popup/index.vue'
+import echarts from '@/lib/echart'
 export default {
   name: 'DataView',
   components: {
@@ -80,7 +133,8 @@ export default {
     BottomRightPieChartVue,
     BottomTable1Vue,
     BottomTable2Vue,
-    BottomTable3Vue
+    BottomTable3Vue,
+    Popup
   },
   data() {
     return {
@@ -89,26 +143,54 @@ export default {
       day: '',
       hour: '',
       minute: '',
-      second: ''
+      second: '',
+      visiblePopup: false,
+      detailType: '', // chart、 table
+      activeDetailConfig: {},
+      detailHeight: 0
     }
   },
   mounted() {
-    const d = new Date()
-    this.year = d.getFullYear()
-    const tmpMonth = d.getMonth() + 1
-    this.month = tmpMonth > 9 ? tmpMonth : '0' + tmpMonth
-    const tmpDay = d.getDay()
-    this.day = tmpDay > 9 ? tmpDay : '0' + tmpDay
+    this.initDate()
+  },
+  methods: {
+    initDate() {
+      const d = new Date()
+      this.year = d.getFullYear()
+      const tmpMonth = d.getMonth() + 1
+      this.month = tmpMonth > 9 ? tmpMonth : '0' + tmpMonth
+      const tmpDay = d.getDate()
+      this.day = tmpDay > 9 ? tmpDay : '0' + tmpDay
 
-    const tmpHour = d.getHours()
-    this.hour = tmpHour > 9 ? tmpHour : '0' + tmpHour
+      const tmpHour = d.getHours()
+      this.hour = tmpHour > 9 ? tmpHour : '0' + tmpHour
 
-    const tmpMin = d.getMinutes()
-    this.minute = tmpMin > 9 ? tmpMin : '0' + tmpMin
+      const tmpMin = d.getMinutes()
+      this.minute = tmpMin > 9 ? tmpMin : '0' + tmpMin
 
-    const tmpSecond = d.getSeconds()
+      const tmpSecond = d.getSeconds()
 
-    this.second = tmpSecond > 9 ? tmpSecond : '0' + tmpSecond
+      this.second = tmpSecond > 9 ? tmpSecond : '0' + tmpSecond
+    },
+    handleDetail(refName) {
+      this.visiblePopup = true
+      this.activeDetailConfig = this.$refs[refName].getConfig()
+      const t = 'Table'
+      const c = 'chart'
+      if (refName.includes(t)) {
+        this.detailType = t
+      } else {
+        this.detailType = c
+        this.detailHeight = this.activeDetailConfig.yAxis.data.length * 50
+        this.$nextTick(() => {
+          this.initPopupChart()
+        })
+      }
+    },
+    initPopupChart() {
+      const chartIns = echarts.init(this.$refs.chartDom)
+      chartIns.setOption(this.activeDetailConfig)
+    }
   }
 }
 </script>
@@ -121,7 +203,7 @@ export default {
   color: #fff;
 
   #dv-full-screen-container {
-    background-image: url('./img/bg.png');
+    background-image: url('../../assets/img/bg.png');
     background-size: 100% 100%;
     box-shadow: 0 0 3px blue;
     display: flex;
@@ -139,7 +221,7 @@ export default {
     box-sizing: border-box;
     // background-color: red;
     z-index: 999;
-    background: url('./img/header.png') no-repeat center center;
+    background: url('../../assets/img/header.png') no-repeat center center;
     // margin-bottom: 16px;
     .header-info {
       flex: 1;
@@ -225,6 +307,40 @@ export default {
         // background-color: #fff;
       }
     }
+  }
+}
+.detail-btn {
+  width: 24px;
+  height: 24px;
+  position: absolute;
+  right: 16px;
+}
+.detail-table {
+  right: 32px;
+}
+
+.popup-detail {
+  width: 60vw;
+  height: 70vh;
+  background-color: rgb(18, 64, 134);
+  overflow: auto;
+}
+
+.left-chart-1 {
+  width: 100%;
+  height: 70vh;
+  overflow: auto;
+  .lc1-header {
+    text-align: center;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 24px;
+    margin-bottom: 10px;
+  }
+  .chart-dom {
+    width: 100%;
   }
 }
 </style>

@@ -1,13 +1,16 @@
 <template>
   <div class="left-chart-1">
-    <div class="lc1-header">装置用水量排行</div>
+    <div class="lc1-header" style="position: relative;">
+      装置用水量排行
+      <slot name="btn"></slot>
+    </div>
     <div class="chart-dom" ref="chartDom" @mouseenter="handleMouseEnter" @mouseleave="handleMouseLeave"></div>
   </div>
 </template>
 
 <script>
 import echarts, { dfColors } from '@/lib/echart'
-import { ajaxGet } from '../../lib/_ajax'
+// import { ajaxGet } from '../../lib/_ajax'
 export default {
   name: 'LeftChart1',
   data() {
@@ -99,24 +102,27 @@ export default {
     }
   },
   mounted() {
-    ajaxGet('/view/device/GetOrderEquipment').then(res => {
-      this.yAxisData = res.data.map(item => item.Equipment)
-      this.seriesData = res.data.map(item => item.Flux)
-      const len = this.colors.length
-      this.seriesData = this.seriesData.map((v, i) => {
-        const color = this.colors[i % len]
-        return {
-          value: v,
-          name: this.yAxisData[i],
-          itemStyle: {
-            color
-          }
-        }
-      })
-      this.option.yAxis.data = this.yAxisData
-      this.option.series[0].data = this.seriesData
-      this.initChart()
-    })
+    this.option.yAxis.data = this.yAxisData
+    this.option.series[0].data = this.seriesData
+    this.initChart()
+    // ajaxGet('/view/device/GetOrderEquipment').then(res => {
+    //   this.yAxisData = res.data.map(item => item.Equipment)
+    //   this.seriesData = res.data.map(item => item.Flux)
+    //   const len = this.colors.length
+    //   this.seriesData = this.seriesData.map((v, i) => {
+    //     const color = this.colors[i % len]
+    //     return {
+    //       value: v,
+    //       name: this.yAxisData[i],
+    //       itemStyle: {
+    //         color
+    //       }
+    //     }
+    //   })
+    //   this.option.yAxis.data = this.yAxisData
+    //   this.option.series[0].data = this.seriesData
+    //   this.initChart()
+    // })
   },
   methods: {
     initChart() {
@@ -141,6 +147,9 @@ export default {
     },
     handleMouseLeave() {
       this.setInv()
+    },
+    getConfig() {
+      return this.option
     }
   }
 }

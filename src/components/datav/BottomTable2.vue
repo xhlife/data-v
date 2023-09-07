@@ -2,7 +2,8 @@
   <div class="bottom-table-2">
     <!-- <div class="title">水压预警设备</div> -->
     <dv-decoration-7 style="width:100%;height:40px;">
-      <span style="padding:0 15px">水压预警设备</span>
+      <span style="padding:0 15px">{{ config.title }}</span>
+      <slot name="btn"></slot>
     </dv-decoration-7>
     <div class="table">
       <dv-scroll-board :config="config" />
@@ -16,6 +17,7 @@ export default {
   data() {
     return {
       config: {
+        title: '水压预警设备',
         header: ['装置名', '设备名称', '水压'],
         index: true,
         align: ['center'],
@@ -63,6 +65,9 @@ export default {
         ...this.config,
         data: d
       }
+    },
+    getConfig() {
+      return this.config
     }
   }
 }
