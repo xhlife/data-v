@@ -99,6 +99,9 @@
 
     <Popup :mask-close="true" :visible.sync="visiblePopup">
       <div class="popup-detail">
+        <div class="close-popup" @click="visiblePopup = false">
+          <img class="close-btn" src="../../assets/close.svg" alt="" />
+        </div>
         <div class="left-chart-1" v-if="detailType === 'chart'">
           <div class="lc1-header">装置用水量排行</div>
           <div class="chart-dom" ref="chartDom" :style="{ height: detailHeight + 'px' }"></div>
@@ -107,7 +110,9 @@
           <dv-decoration-7 style="width:100%;height:40px;">
             <span style="padding:0 15px">{{ activeDetailConfig.title }}</span>
           </dv-decoration-7>
-          <div class="table"></div>
+          <div class="table" ref="popupTable" :style="{ height: detailHeight + 'px' }">
+            <dv-scroll-board :config="activeDetailConfig" :style="{ height: detailHeight + 'px' }" />
+          </div>
         </div>
       </div>
     </Popup>
@@ -179,6 +184,8 @@ export default {
       const c = 'chart'
       if (refName.includes(t)) {
         this.detailType = t
+        this.detailHeight = (this.activeDetailConfig.data.length + 1) * 40
+        this.activeDetailConfig.rowNum = this.activeDetailConfig.data.length
       } else {
         this.detailType = c
         this.detailHeight = this.activeDetailConfig.yAxis.data.length * 50
@@ -190,6 +197,9 @@ export default {
     initPopupChart() {
       const chartIns = echarts.init(this.$refs.chartDom)
       chartIns.setOption(this.activeDetailConfig)
+    },
+    initPopupTable(refName) {
+      // const $el = this.$refs[refName].$el
     }
   }
 }
@@ -314,6 +324,7 @@ export default {
   height: 24px;
   position: absolute;
   right: 16px;
+  cursor: pointer;
 }
 .detail-table {
   right: 32px;
@@ -323,7 +334,19 @@ export default {
   width: 60vw;
   height: 70vh;
   background-color: rgb(18, 64, 134);
+  position: relative;
   overflow: auto;
+  padding: 16px;
+  .close-popup {
+    position: absolute;
+    right: 16px;
+    top: 16px;
+    cursor: pointer;
+    .close-btn {
+      width: 16px;
+      height: 16px;
+    }
+  }
 }
 
 .left-chart-1 {
@@ -337,7 +360,6 @@ export default {
     justify-content: center;
     align-items: center;
     font-size: 24px;
-    margin-bottom: 10px;
   }
   .chart-dom {
     width: 100%;

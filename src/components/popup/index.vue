@@ -44,8 +44,8 @@ export default {
         this.$refs.popupDom.removeEventListener('click', this.close)
       }
     },
-    close() {
-      if (this.$listeners['update:visible']) {
+    close(event) {
+      if (this.$listeners['update:visible'] && this.$refs.popupDom === event.target) {
         this.$emit('update:visible', false)
       } else {
         this.$emit('close', false)

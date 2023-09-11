@@ -10,35 +10,37 @@
 
 <script>
 import echarts, { dfColors } from '@/lib/echart'
-// import { ajaxGet } from '../../lib/_ajax'
+import { ajaxGet } from '../../lib/_ajax'
 export default {
   name: 'LeftChart1',
   data() {
     return {
       aniInterval: null,
       yAxisData: [
-        '装置1',
-        '装置2',
-        '装置3',
-        '装置4',
-        '装置5',
-        '装置6',
-        '装置7',
-        '装置8',
-        '装置9',
-        '装置10',
-        '装置11',
-        '装置12',
-        '装置13',
-        '装置14',
-        '装置15',
-        '装置16',
-        '装置17',
-        '装置18',
-        '装置19',
-        '装置20'
+        // '装置1',
+        // '装置2',
+        // '装置3',
+        // '装置4',
+        // '装置5',
+        // '装置6',
+        // '装置7',
+        // '装置8',
+        // '装置9',
+        // '装置10',
+        // '装置11',
+        // '装置12',
+        // '装置13',
+        // '装置14',
+        // '装置15',
+        // '装置16',
+        // '装置17',
+        // '装置18',
+        // '装置19',
+        // '装置20'
       ],
-      seriesData: [200, 188, 180, 175, 164, 157, 146, 134, 130, 123, 109, 96, 89, 80, 78, 70, 67, 64, 50, 44],
+      seriesData: [
+        /* 200, 188, 180, 175, 164, 157, 146, 134, 130, 123, 109, 96, 89, 80, 78, 70, 67, 64, 50, 44*/
+      ],
       chartIns: null,
       colors: dfColors,
       option: {
@@ -102,27 +104,24 @@ export default {
     }
   },
   mounted() {
-    this.option.yAxis.data = this.yAxisData
-    this.option.series[0].data = this.seriesData
-    this.initChart()
-    // ajaxGet('/view/device/GetOrderEquipment').then(res => {
-    //   this.yAxisData = res.data.map(item => item.Equipment)
-    //   this.seriesData = res.data.map(item => item.Flux)
-    //   const len = this.colors.length
-    //   this.seriesData = this.seriesData.map((v, i) => {
-    //     const color = this.colors[i % len]
-    //     return {
-    //       value: v,
-    //       name: this.yAxisData[i],
-    //       itemStyle: {
-    //         color
-    //       }
-    //     }
-    //   })
-    //   this.option.yAxis.data = this.yAxisData
-    //   this.option.series[0].data = this.seriesData
-    //   this.initChart()
-    // })
+    ajaxGet('/view/device/GetOrderEquipment').then(res => {
+      this.yAxisData = res.data.map(item => item.Equipment)
+      this.seriesData = res.data.map(item => item.Flux)
+      const len = this.colors.length
+      this.seriesData = this.seriesData.map((v, i) => {
+        const color = this.colors[i % len]
+        return {
+          value: v,
+          name: this.yAxisData[i],
+          itemStyle: {
+            color
+          }
+        }
+      })
+      this.option.yAxis.data = this.yAxisData
+      this.option.series[0].data = this.seriesData
+      this.initChart()
+    })
   },
   methods: {
     initChart() {
