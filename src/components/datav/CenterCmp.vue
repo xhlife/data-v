@@ -35,7 +35,7 @@
         <div class="cc-main-container-item">
           <dv-border-box-8 :reverse="true">
             <div class="container-item-content">
-              <div class="item-content-title">设备数</div>
+              <div class="item-content-title">水厂水泵数</div>
               <div class="item-content-text">{{ pumpNum }}个</div>
             </div>
           </dv-border-box-8>

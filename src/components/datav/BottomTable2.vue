@@ -18,7 +18,7 @@ export default {
     return {
       config: {
         title: '水压预警设备',
-        header: ['装置名', '设备名称', '水压'],
+        header: ['装置名', '设备名称', '水压(kpa)'],
         index: true,
         align: ['center'],
         headerBGC: '#124086',
