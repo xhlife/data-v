@@ -106,7 +106,6 @@ export default {
       this.heatNum = res.data.heat
       this.pumpNum = res.data.pump
       this.towerNum = res.data.tower
-      // console.log(res)
     })
     setTimeout(() => {
       this.startMove()
