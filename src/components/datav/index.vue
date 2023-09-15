@@ -2,8 +2,8 @@
   <div id="data-view">
     <dv-full-screen-container>
       <header id="header-container">
-        <div class="header-info header-info-l">数据来源：技术规范 &amp; 工厂实地</div>
-        <div class="header-info header-title">循环冷却水系统概况</div>
+        <div class="header-info header-info-l">技术规程 & 计算模拟 & DCS系统</div>
+        <div class="header-info header-title">荆门石化循环冷却水智慧系统</div>
         <div class="header-info header-info-r">
           数据日期：
           <span id="nowDate"> {{ year }}年{{ month }}月{{ day }}日 {{ hour }}时{{ minute }}分{{ second }}秒 </span>
@@ -98,7 +98,7 @@
     </dv-full-screen-container>
 
     <Popup :mask-close="true" :visible.sync="visiblePopup">
-      <div class="popup-detail">
+      <div class="popup-detail" ref="popupDetail">
         <div class="close-popup" @click="visiblePopup = false">
           <img class="close-btn" src="../../assets/close.svg" alt="" />
         </div>
@@ -179,13 +179,14 @@ export default {
     },
     handleDetail(refName) {
       this.visiblePopup = true
-      this.activeDetailConfig = this.$refs[refName].getConfig()
+      this.activeDetailConfig = JSON.parse(JSON.stringify(this.$refs[refName].getConfig()))
       const t = 'Table'
       const c = 'chart'
       if (refName.includes(t)) {
         this.detailType = t
-        this.detailHeight = (this.activeDetailConfig.data.length + 1) * 40
-        this.activeDetailConfig.rowNum = this.activeDetailConfig.data.length
+        this.$nextTick(() => {
+          this.initPopupTable()
+        })
       } else {
         this.detailType = c
         this.detailHeight = this.activeDetailConfig.yAxis.data.length * 50
@@ -198,8 +199,23 @@ export default {
       const chartIns = echarts.init(this.$refs.chartDom)
       chartIns.setOption(this.activeDetailConfig)
     },
-    initPopupTable(refName) {
+    initPopupTable() {
       // const $el = this.$refs[refName].$el
+      this.detailHeight = (this.activeDetailConfig.data.length + 1) * 40
+      this.activeDetailConfig.rowNum = this.activeDetailConfig.data.length
+      // console.log(this.$refs.popupDetail.clientWidth)
+      const dataCol = this.activeDetailConfig.columnWidth.slice(1)
+      const totalWidth = dataCol.reduce((tol, cur) => (tol += cur))
+      const restWidth = this.$refs.popupDetail.clientWidth - totalWidth
+      if (restWidth > 0) {
+        const perWidth = restWidth / dataCol.length
+        this.activeDetailConfig.columnWidth.forEach((v, i) => {
+          if (i > 0) {
+            this.activeDetailConfig.columnWidth[i] = v + perWidth
+          }
+        })
+        this.activeDetailConfig = JSON.parse(JSON.stringify(this.activeDetailConfig))
+      }
     }
   }
 }

@@ -51,7 +51,7 @@
         <div class="cc-main-container-item">
           <dv-border-box-8 :reverse="true">
             <div class="container-item-content">
-              <div class="item-content-title">风机数</div>
+              <div class="item-content-title">冷却塔数</div>
               <div class="item-content-text">{{ towerNum }}个</div>
             </div>
           </dv-border-box-8>
@@ -104,15 +104,17 @@ export default {
     ajaxGet('/view/device/GetStatistics').then(res => {
       this.totalWater = res.data.flux
       this.heatNum = res.data.heat
-      this.pumpNum = res.data.pump
-      this.towerNum = res.data.tower
+      // this.pumpNum = res.data.pump
+      this.pumpNum = 18
+      // this.towerNum = res.data.tower
+      this.towerNum = 11
     })
     setTimeout(() => {
       this.startMove()
     }, 2000)
   },
   beforeDestroy() {
-    // this.handleMouseLeave()
+    this.handleMouseLeave()
   },
   methods: {
     initBoxInfo() {
@@ -179,7 +181,7 @@ export default {
   }
 
   .cc-details {
-    height: 88px;
+    height: 72px;
     display: flex;
     justify-content: center;
     font-size: 32px;
@@ -210,13 +212,12 @@ export default {
     display: flex;
     flex-direction: column;
     align-items: center;
-    // background-color: yellow;
     .cc-main-container-top {
       display: flex;
       align-items: center;
       justify-content: space-around;
       width: 100%;
-      height: 40%;
+      height: 38%;
     }
     .cc-main-container-item {
       // flex: 1;
@@ -229,12 +230,12 @@ export default {
         justify-content: center;
         align-items: center;
         .item-content-title {
-          font-size: 24px;
-          margin-bottom: 20px;
+          font-size: 18px;
+          margin-bottom: 6px;
           color: #70a0c2;
         }
         .item-content-text {
-          font-size: 36px;
+          font-size: 24px;
           color: #65bbc5;
           text-shadow: 0 0 10px #333, 0 0 20px #333, 0 0 30px #333, 0 0 40px #006699, 0 0 70px #006699, 0 0 80px #006699,
             0 0 100px #006699, 0 0 150px #006699;
@@ -244,7 +245,7 @@ export default {
     .cc-main-container-bottom {
       margin-top: 10px;
       width: 80%;
-      height: 55%;
+      height: 62%;
       cursor: pointer;
       .content {
         width: 100%;
@@ -270,8 +271,8 @@ export default {
           margin: 0 auto;
           margin-top: 5px;
           overflow: hidden;
-          max-height: 100px;
-          line-height: 36px;
+          max-height: 110px;
+          line-height: 28px;
         }
       }
     }

@@ -2,7 +2,7 @@
   <div class="bar-chart">
     <div class="chart-dom" ref="chartDom"></div>
     <div class="chart-filter">
-      <select @change="handleSelectChange">
+      <select @change="handleSelectChange" v-model="selectValue">
         <!-- <option value="option1">Option 1</option>
         <option value="option2">Option 2</option>
         <option value="option3">Option 3</option> -->
@@ -24,8 +24,8 @@ export default {
     return {
       eInstance: null,
       colors: dfColors,
-      seriesData: [120, 200, 150, 80, 70, 110, 130],
-      xAxisData: ['设备1', '设备2', '设备3', '设备4', '设备-CKLKSJKJSK', '设备-手机打开', '设备9080'],
+      seriesData: [],
+      xAxisData: [],
       options: {
         grid: {
           top: 90
@@ -60,7 +60,8 @@ export default {
           }
         ]
       },
-      selectionOptions: []
+      selectionOptions: ['测试', '糠醛轻'],
+      selectValue: ''
     }
   },
   mounted() {
@@ -71,7 +72,9 @@ export default {
     getSelectOptions() {
       ajaxGet('/view/device/GetAllEquipmentName').then(res => {
         this.selectionOptions = res.data
-        this.getData(this.selectionOptions[0])
+        const first = '糠醛轻'
+        this.selectValue = first
+        this.getData(first)
       })
     },
     updateChart() {
